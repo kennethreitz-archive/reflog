@@ -32,7 +32,7 @@ def show_changelog():
 
     collector = []
 
-    for commit in tree.xpath('//entry'):
+    for commit in tree.findall('//entry'):
         collector.append(commit.title)
 
     return '\n'.join(collector)
