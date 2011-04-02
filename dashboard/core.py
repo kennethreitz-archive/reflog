@@ -30,4 +30,9 @@ def show_changelog():
     r = requests.get(GH_CHANGELOG_URL)
     tree = objectify.fromstring(r.content)
 
-    return str(dir(tree))
+    collector = []
+
+    for commit in tree.xpath('//entry'):
+        collector.append(commit.title)
+
+    return '\n'.join(collector)
