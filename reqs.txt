@@ -1,0 +1,3 @@
+BeautifulSoup
+python-dateutil
+ordereddict
