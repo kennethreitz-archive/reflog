@@ -1,23 +1,11 @@
-Hmmmmmmm.....
+GitHub Reflog Dashboard
+=======================
 
-Features
---------
-* Full (simple) website w/ archives and search
-* Mobile-optimized Content (iPad, iPhone, Android, etc)
-* RSS Feed
+This is the GitHub Reflog dashboard.
 
-Technologies
-------------
-* HTML5BoilerPlate
-* Python 2.7
-* lxml/beautiful soup
-* Flask
-* Flask-scripts?
-* logbook
-* jStorage?
-
-
-TODO
-----
-
-* Begin
+- GitHub Changelog
+- GitHub Issues Log
+- Changelog Articles
+- Topsy Searches
+- GitHub Explore Searches
+- Twitter Searches
