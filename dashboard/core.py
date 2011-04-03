@@ -40,6 +40,8 @@ def redis_connect():
 
 app = Flask(__name__)
 
+app.debug = True
+
 @app.before_request
 def before_request():
     if not getattr(g, 'r', None):
