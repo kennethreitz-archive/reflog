@@ -9,7 +9,11 @@ This module contains all of the Dashboard's core.
 """
 
 
-from flask import Flask
+from flask import (
+    request, session, redirect, url_for,
+    abort, render_template, flash, Flask
+)
+
 app = Flask(__name__)
 
 
@@ -21,18 +25,22 @@ from lxml import objectify, etree
 
 @app.route('/')
 def index():
-    return 'Hello, from flask!'
+    return render_template('index.html')
 
 
 @app.route('/changelog')
 def show_changelog():
 
     r = requests.get(GH_CHANGELOG_URL)
-    tree = objectify.fromstring(r.content)
+    feed = objectify.fromstring(r.content)
 
     collector = []
 
-    for commit in tree.findall('//entry'):
-        collector.append(commit.title)
+    for commit in feed.entry:
+        collector.append(dict(
+            email=commit.author.email,
+            title=commit.title,
+            link=commit.link.attrib.get('href', None)
+        ))
 
-    return '\n'.join(collector)
+    return '<br />'.join([str(c['title']) for c in collector])
