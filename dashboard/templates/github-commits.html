@@ -8,9 +8,7 @@
 {% for commit in commits %}
 
     <li>
-
-        <a href="mailto:{{ commit.email }}">{{ commit.author }}</a>
-        <pre>    {{ commit.message }}</pre>
+        <pre>[{{ commit.author }}] {{ commit.message }}</pre>
     </li>
 
 {% endfor %}
