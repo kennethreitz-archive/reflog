@@ -21,7 +21,6 @@ from flask import (
 )
 
 
-
 # Redis autoconfig for ep.io
 
 def redis_connect():
@@ -73,11 +72,11 @@ def cached_or_not(key, callback, expires=60, *args):
     value = g.r.get(key)
 
     if value is not None:
-        return value
+        return json_decode(value)
     else:
         value = callback(*args)
 
-        g.r.set(key, value)
+        g.r.set(key, json_encode(value))
         g.r.expire(key, expires)
 
         return value
@@ -93,9 +92,10 @@ def fetch_github_commits():
 
     for commit in feed.entry:
         commits.append(dict(
-            email=commit.author.email,
-            title=commit.title,
-            link=commit.link.attrib.get('href', None)
+            author=unicode(commit.author.name),
+            email=str(commit.author.email),
+            message=unicode(commit.title),
+            link=str(commit.link.attrib.get('href', None))
         ))
 
     return commits
@@ -112,5 +112,4 @@ def show_changelog():
 
     commits = cached_or_not('dashboard:github:commits', fetch_github_commits, 5*60)
 
-
-    return str(commits)
+    return render_template('github-commits.html', commits=commits)

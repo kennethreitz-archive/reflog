@@ -1,0 +1,17 @@
+<!doctype html>
+<title>Tests</title>
+
+<body onload="">
+
+<h1>GitHub Commits</h1>
+
+{% for commit in commits %}
+
+<li>
+
+{{ commit.author }} ({{ commit.email }})
+<pre>    {{ commit.message }}
+</pre>
+</li>
+
+{% endfor %}
