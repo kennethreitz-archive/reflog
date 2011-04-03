@@ -3,3 +3,4 @@ redis
 lxml
 Flask
 Flask-Script
+Flask-Cache
