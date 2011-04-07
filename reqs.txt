@@ -1,4 +1,5 @@
 clint
+python-otter
 requests
 redis
 lxml

@@ -1,0 +1,14 @@
+<!doctype html>
+<title>Tests</title>
+
+<body onload="">
+
+<h1>Topsy Shit</h1>
+
+{% for link in links %}
+
+    <li>
+        [{{ link.hits }}] <a href="{{ link.url }}">{{ link.title }}</a>
+    </li>
+
+{% endfor %}
