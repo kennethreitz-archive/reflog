@@ -112,6 +112,31 @@ def index():
 @app.route('/changelog')
 def show_changelog():
 
-    commits = cached_or_not('dashboard:github:commits', fetch_github_commits, 5*60)
+    commits = g.r.lrange('dashboard:github:commits', 0, -1)
+
+    for i, c in enumerate(commits):
+        commits[i] = json_decode(c)
 
     return render_template('github-commits.html', commits=commits)
+
+
+
+@app.route('/get/changelog')
+def grab_changelog():
+
+    stored_commits = g.r.lrange('dashboard:github:commits', 0, -1)
+    added_count = 0
+
+    for i, c in enumerate(stored_commits):
+        stored_commits[i] = json_decode(c)
+
+    for commit in reversed(fetch_github_commits()):
+
+        if commit not in stored_commits:
+            g.r.lpush('dashboard:github:commits', json_encode(commit))
+            added_count += 1
+        # g.r.set('dashboard:github:commits:latest', commit.get('link'))
+
+
+
+    return '{0} commits added.'.format(added_count)
