@@ -24,10 +24,11 @@ app.debug = True
 
 
 from .db import redis_connect
-from .views import index, gh_commits
+from .views import index, gh_commits, topsy
 
 app.register_module(index)
 app.register_module(gh_commits, url_prefix='/github/commits')
+app.register_module(topsy, url_prefix='/topsy')
 
 
 
