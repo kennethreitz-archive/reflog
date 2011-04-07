@@ -12,6 +12,7 @@ def _run(cmd):
 
 
 def prod():
+    """Runs all command on the production instance."""
     global CMD_TEMPLATE
 
     CMD_TEMPLATE = 'epio run_command {0}'
@@ -20,8 +21,9 @@ def prod():
 def deploy():
     """Deploys the application"""
 
+    prod()
     local('epio upload')
-    local('epio run_command ./manage.py migrate')
+    migrate()
 
 
 def migrate():
@@ -31,6 +33,8 @@ def migrate():
 
 
 def clear_db():
+    """Clears the Redis database."""
+    
     _run('./manage.py clear_db')
 
 
