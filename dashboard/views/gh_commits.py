@@ -22,11 +22,13 @@ from flask import Module, g, render_template
 
 # app = core.app
 
-commits = Module(__name__)
+gh_commits = Module(__name__)
 
 GH_CHANGELOG_URL = 'https://github.com/changelog.atom'
 
 __all__ = ('commits',)
+
+
 
 def fetch_github_commits():
     """Returns a list of GitHub commit dicts from the feed."""
@@ -43,7 +45,9 @@ def fetch_github_commits():
             link=str(commit.link.attrib.get('href', None))
         )
 
-@commits.route('/')
+
+
+@gh_commits.route('/')
 def show_changelog():
 
     commits = g.r.lrange('dashboard:github:commits', 0, -1)
@@ -55,7 +59,7 @@ def show_changelog():
 
 
 
-@commits.route('/get')
+@gh_commits.route('/get')
 def grab_changelog():
 
     stored_commits = g.r.lrange('dashboard:github:commits', 0, -1)

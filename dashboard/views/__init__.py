@@ -7,5 +7,5 @@ dashboard.views
 This module contains all of the url bindings for 
 """
 
-from .commits import *
-from .index import *
+from .gh_commits import gh_commits
+from .index import index

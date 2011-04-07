@@ -24,22 +24,15 @@ app.debug = True
 
 
 from .db import redis_connect
-from .views import commits
+from .views import index, gh_commits
 
-app.register_module(commits, url_prefix='/changelog')
+app.register_module(index)
+app.register_module(gh_commits, url_prefix='/github/commits')
+
 
 
 @app.before_request
 def before_request():
+    # redis connect
     if not getattr(g, 'r', None):
         g.r = redis_connect()
-
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-
-    
