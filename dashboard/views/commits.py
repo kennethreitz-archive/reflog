@@ -26,7 +26,7 @@ commits = Module(__name__)
 
 GH_CHANGELOG_URL = 'https://github.com/changelog.atom'
 
-# __all__ = ()
+__all__ = ('commits',)
 
 def fetch_github_commits():
     """Returns a list of GitHub commit dicts from the feed."""
@@ -42,9 +42,6 @@ def fetch_github_commits():
             message=unicode(commit.title),
             link=str(commit.link.attrib.get('href', None))
         )
-
-
-
 
 @commits.route('/')
 def show_changelog():
