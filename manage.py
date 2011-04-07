@@ -10,9 +10,10 @@ This module contains the management functionality.
 
 """
 
+import os
 
-from flaskext.script import Manager
 from clint.textui import puts, indent, colored
+from flaskext.script import Manager
 
 from dashboard import app, g, redis_connect
 
@@ -42,6 +43,10 @@ def clear_db():
             if r.delete(key):
                 puts('{0} deleted.'.format(colored.red(key)))
 
+
+@manager.command
+def migrate():
+    os.system('./migrate.py')
 
 
 if __name__ == '__main__':
