@@ -27,6 +27,7 @@ SEARCH_TERM = 'github.com/'
 WINDOW_MAP = {
     'day': 'd',
     '3day': 'd3',
+    'week': 'w',
     'month': 'm',
     'year': 'y',
 }
@@ -86,7 +87,7 @@ def get_window(window, w):
 
 @topsy.route('/')
 def show_topsy():
-    return'topsy!'
+    return ''.join(WINDOW_MAP.keys())
 
 
 @topsy.route('/<window>')
@@ -101,13 +102,13 @@ def show_window_url(window):
 
         return render_template('topsy.html', links=links, window=window)
     else:
-        raise 'fuck'
+        pass
 
 
 @topsy.route('/<window>/get')
 def get_window_url(window):
 
-    r = get_window('d', 'day')
+    r = get_window(WINDOW_MAP[window], window)
 
     return '{0} links added.\n{1} links updated.'.format(r['added_count'], r['updated_count'])
 
