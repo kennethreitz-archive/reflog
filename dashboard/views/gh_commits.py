@@ -9,24 +9,21 @@ This module contains all of the GitHub Dashboard capabilities.
 """
 
 import requests
+
+from lxml import objectify
 from jsonpickle import encode as json_encode
 from jsonpickle import decode as json_decode
-from lxml import objectify
-# from dashboard import app
-# import dashboard
-
 
 from flask import Module, g, render_template
 
-# print dir(dashboard)
 
-# app = core.app
+__all__ = ('commits',)
 
-gh_commits = Module(__name__)
 
 GH_CHANGELOG_URL = 'https://github.com/changelog.atom'
 
-__all__ = ('commits',)
+
+gh_commits = Module(__name__)
 
 
 
