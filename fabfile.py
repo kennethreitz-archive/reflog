@@ -22,7 +22,7 @@ def deploy():
     """Deploys the application"""
 
     prod()
-    local('epio upload')
+    local('git push epio master')
     migrate()
 
 
@@ -34,7 +34,7 @@ def migrate():
 
 def clear_db():
     """Clears the Redis database."""
-    
+
     _run('./manage.py clear_db')
 
 
