@@ -12,8 +12,6 @@ import requests
 import redi
 
 from lxml import objectify
-from jsonpickle import encode as json_encode
-from jsonpickle import decode as json_decode
 
 from flask import Module, g, render_template
 
