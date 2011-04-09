@@ -9,13 +9,10 @@ This module contains all of the Topsy Dashboard capabilities.
 """
 
 import otter
+import redi     # \o/
 import requests
-import redi
-from operator import itemgetter
 
-from lxml import objectify
-from jsonpickle import encode as json_encode
-from jsonpickle import decode as json_decode
+from operator import itemgetter
 
 from flask import Module, g, render_template
 
