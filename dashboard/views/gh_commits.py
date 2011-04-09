@@ -50,7 +50,6 @@ def fetch_github_commits():
 def show_changelog():
 
     commits = redi.list(NAMESPACE, r=g.r)
-
     return render_template('github-commits.html', commits=commits)
 
 
@@ -58,7 +57,7 @@ def show_changelog():
 @gh_commits.route('/get')
 def grab_changelog():
 
-    commits = redi.list(commit_namespace, r=g.r)
+    commits = redi.list(NAMESPACE, r=g.r)
     added_count = 0
 
     for commit in fetch_github_commits():
