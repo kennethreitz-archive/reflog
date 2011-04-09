@@ -10,6 +10,7 @@ This module contains all of the Topsy Dashboard capabilities.
 
 import otter
 import requests
+import redi
 from operator import itemgetter
 
 from lxml import objectify
@@ -52,34 +53,28 @@ def get_by_window(term, n, pages=3):
 
 def show_window(window):
     """  """
-    links = g.r.lrange('dashboard:topsy:{0}'.format(window), 0, -1)
-
-    for i, l in enumerate(links):
-        links[i] = json_decode(l)
+    links = redi.list(('dashboard', 'topsy', window), r=g.r)
 
     return sorted(links, key=itemgetter('hits'), reverse=True)
 
 
 def get_window(window, w):
     """  """
-    stored_links = g.r.lrange('dashboard:topsy:{0}'.format(w), 0, -1)
+
+    links = redi.list(('dashboard', 'topsy', w), r=g.r)
     added_count = 0
     updated_count = 0
 
-    for i, c in enumerate(stored_links):
-        stored_links[i] = json_decode(c)['url']
 
-    links = get_by_window(SEARCH_TERM, window)
+    for new_link in get_by_window(SEARCH_TERM, window):
 
-    for i, link in enumerate(links):
-
-        if not link['url'] in stored_links:
-            g.r.lpush('dashboard:topsy:{0}'.format(w), json_encode(link))
+        if not new_link['url'] in [l['url'] for l in links]:
+            links.lpush(new_link)
             added_count += 1
         else:
-            for (j, stored) in enumerate(stored_links):
-                if json_decode(g.r.lindex('dashboard:topsy:{0}'.format(w), j))['url'] == link['url']:
-                    print g.r.lindex('dashboard:topsy:{0}'.format(w), j)
+            for link in links:
+                if link['url'] == new_link['url']:
+                    link['hits'] = new_link['hits']
                     updated_count += 1
 
     return dict(updated_count=updated_count, added_count=added_count)

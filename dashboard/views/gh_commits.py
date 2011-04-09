@@ -9,6 +9,7 @@ This module contains all of the GitHub Dashboard capabilities.
 """
 
 import requests
+import redi
 
 from lxml import objectify
 from jsonpickle import encode as json_encode
@@ -21,6 +22,7 @@ __all__ = ('commits',)
 
 
 GH_CHANGELOG_URL = 'https://github.com/changelog.atom'
+NAMESPACE = ('dashboard', 'github', 'commits')
 
 
 gh_commits = Module(__name__)
@@ -29,7 +31,7 @@ gh_commits = Module(__name__)
 
 def fetch_github_commits():
     """Returns a list of GitHub commit dicts from the feed."""
-    
+
     r = requests.get(GH_CHANGELOG_URL).content
 
     feed = objectify.fromstring(r)
@@ -47,11 +49,7 @@ def fetch_github_commits():
 @gh_commits.route('/')
 def show_changelog():
 
-    commits = g.r.lrange('dashboard:github:commits', 0, -1)
-
-    for i, c in enumerate(commits):
-        commits[i] = json_decode(c)
-
+    commits = redi.list(NAMESPACE, r=g.r)
     return render_template('github-commits.html', commits=commits)
 
 
@@ -59,16 +57,13 @@ def show_changelog():
 @gh_commits.route('/get')
 def grab_changelog():
 
-    stored_commits = g.r.lrange('dashboard:github:commits', 0, -1)
+    commits = redi.list(NAMESPACE, r=g.r)
     added_count = 0
-
-    for i, c in enumerate(stored_commits):
-        stored_commits[i] = json_decode(c)
 
     for commit in fetch_github_commits():
 
-        if commit not in stored_commits:
-            g.r.lpush('dashboard:github:commits', json_encode(commit))
+        if commit not in commits:
+            commits.lpush(commit)
             added_count += 1
 
-    return '{0} commits added.'.format(added_count) 
+    return '{0} commits added.'.format(added_count)
