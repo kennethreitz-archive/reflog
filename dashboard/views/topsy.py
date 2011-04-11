@@ -12,7 +12,6 @@ import otter
 import redi     # \o/
 import requests
 
-from operator import itemgetter
 
 from flask import Module, g, render_template
 
@@ -33,6 +32,11 @@ WINDOW_MAP = {
 topsy = Module(__name__)
 
 
+@topsy.before_request
+def configure_redi():
+    redi.config.redis = g.r
+
+
 def get_by_window(term, n, pages=3):
 
     for page in range(pages):
@@ -50,15 +54,15 @@ def get_by_window(term, n, pages=3):
 
 def show_window(window):
     """  """
-    links = redi.list(('dashboard', 'topsy', window), r=g.r)
+    links = redi.s.dashboard.topsy._(window, 'list')
 
-    return sorted(links, key=itemgetter('hits'), reverse=True)
+    return links.sorted_by('hits', reverse=True)
 
 
 def get_window(window, w):
     """  """
 
-    links = redi.list(('dashboard', 'topsy', w), r=g.r)
+    links = redi.s.dashboard.topsy._(window, 'list')
     added_count = 0
     updated_count = 0
 

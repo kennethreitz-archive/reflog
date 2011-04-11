@@ -26,6 +26,10 @@ NAMESPACE = ('dashboard', 'github', 'commits')
 gh_commits = Module(__name__)
 
 
+@gh_commits.before_request
+def configure_redi():
+    redi.config.redis = g.r
+
 
 def fetch_github_commits():
     """Returns a list of GitHub commit dicts from the feed."""
@@ -47,7 +51,7 @@ def fetch_github_commits():
 @gh_commits.route('/')
 def show_changelog():
 
-    commits = redi.list(NAMESPACE, r=g.r)
+    commits = redi.s.dashboard.github._('commits', 'list')
     return render_template('github-commits.html', commits=commits)
 
 
@@ -55,7 +59,7 @@ def show_changelog():
 @gh_commits.route('/get')
 def grab_changelog():
 
-    commits = redi.list(NAMESPACE, r=g.r)
+    commits = redi.s.dashboard.github._('commits', 'list')
     added_count = 0
 
     for commit in fetch_github_commits():

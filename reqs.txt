@@ -1,10 +1,9 @@
 clint
 python-otter
-redi
+redi==0.0.6
 requests
 redis
 lxml
 Flask
-jsonpickle
 Flask-Script
 Flask-Cache
