@@ -1,6 +1,6 @@
 clint
 python-otter
-redi==0.0.6
+redi==0.0.7
 requests
 redis
 lxml
