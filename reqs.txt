@@ -7,3 +7,4 @@ lxml
 Flask
 Flask-Script
 Flask-Cache
+jsonpickle
