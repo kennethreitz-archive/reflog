@@ -8,10 +8,9 @@ This module contains all of the Dashboard's core.
 
 """
 
-
+import redi
 import requests
 
-from redis import Redis
 from lxml import objectify, etree
 
 from flask import (
@@ -34,6 +33,9 @@ app.register_module(topsy, url_prefix='/topsy')
 
 @app.before_request
 def before_request():
+
     # redis connect
     if not getattr(g, 'r', None):
         g.r = redis_connect()
+
+        redi.config.init(r=g.r)

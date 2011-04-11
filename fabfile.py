@@ -22,7 +22,7 @@ def deploy():
     """Deploys the application"""
 
     prod()
-    local('git push epio master')
+    local('epio upload')
     migrate()
 
 

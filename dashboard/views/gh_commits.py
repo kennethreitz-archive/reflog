@@ -26,11 +26,6 @@ NAMESPACE = ('dashboard', 'github', 'commits')
 gh_commits = Module(__name__)
 
 
-@gh_commits.before_request
-def configure_redi():
-    redi.config.redis = g.r
-
-
 def fetch_github_commits():
     """Returns a list of GitHub commit dicts from the feed."""
 
