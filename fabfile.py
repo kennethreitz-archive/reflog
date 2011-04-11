@@ -38,3 +38,8 @@ def clear_db():
     _run('./manage.py clear_db')
 
 
+
+def sync():
+    """Imports everything from various services."""
+
+    _run('./manage.py sync')

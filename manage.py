@@ -11,6 +11,7 @@ This module contains the management functionality.
 """
 
 import os
+import redi
 
 from clint.textui import puts, indent, colored
 from flaskext.script import Manager
@@ -23,12 +24,8 @@ from dashboard.views.topsy import get_window_url, WINDOW_MAP
 manager = Manager(app)
 
 app.test_request_context('/').push()
+redi.config.init(r=redis_connect())
 
-
-
-@manager.command
-def hello():
-    print 'hello'
 
 @manager.command
 def clear_db():
